@@ -7,13 +7,36 @@ player = False
 #make the computer pick one item at random
 computer = choices[randint(0,2)]
 
-#shows the computer choice in the terminal window
-#(I commented the following line out because it ruins the point of the game! Hope that's okay!)
-#print("Computer chooses: ", computer)
-
 #3 lives for user and computer
 userLives = 3
 compLives = 3
+
+
+#define a win or lose function instead of procedural way
+def winOrLose(status):
+    #handle win or lose based on the status we pass in
+    print("Called the win or lose function")
+    print("********************************")
+    print("You", status, "!", "Would you like to play again?")
+    choice = input("Y / N: ")
+
+    if choice == "Y" or choice == "y":
+        #reset the game
+        #change global variables
+        global compLives
+        global userLives
+        global player
+        global computer
+
+        compLives = 3
+        userLives = 3
+        player = False
+        computer = choices[randint(0,2)]
+
+    elif choice == "N" or choice == "n":
+        print("You chose to quit.")
+        exit()
+
 
 while player == False:
     print("Choose Your Weapon")
@@ -66,30 +89,11 @@ while player == False:
 
     #tell user (if) they lost
     if userLives == 0:
-        print("This game is complete.\nThe Computer won, better luck next time!\n")
-        print("********************************")
-        playAgain = input("Would you like to play again? Type 'Yes' or 'No':\n")
-        #ask user to play again
-        if(playAgain == "Yes"):
-            userLives = 3
-            compLives = 3
-        elif playAgain == "No":
-            exit()
-        else:
-            print("Not a valid option. Please verify your input and check your spelling\n")
+        winOrLose("lost")
 
     #tell user (if) the computer lost
     elif compLives == 0:
-        print("This game is complete.\nCongratulations, you won!\n")
-        print("********************************")
-        playAgain = input("Would you like to play again? Type 'Yes' or 'No':\n")
-        if(playAgain == "Yes"):
-            userLives = 3
-            compLives = 3
-        elif playAgain == "No":
-            exit()
-        else:
-            print("Not a valid option. Please verify your input and check your spelling\n")
+        winOrLose("won")
 
     player = False
     computer = choices[randint(0, 2)]
